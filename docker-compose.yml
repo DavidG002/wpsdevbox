@@ -45,6 +45,34 @@ services:
     networks:
       - wpsdevbox
 
+  composer:
+    image: composer:2
+    volumes:
+      - .:/app
+    working_dir: /app
+    user: "${UID:-1000}:${GID:-1000}"
+    profiles:
+      - tools
+
+  wpcli:
+    image: wordpress:cli-php8.3
+    depends_on:
+      - db
+      - wordpress
+    volumes:
+      - ./:/var/www/html
+    working_dir: /var/www/html
+    user: "33:33"
+    environment:
+      WORDPRESS_DB_HOST: db
+      WORDPRESS_DB_NAME: ${DB_NAME:-wpsdevbox}
+      WORDPRESS_DB_USER: ${DB_USER:-wpsdevbox}
+      WORDPRESS_DB_PASSWORD: ${DB_PASSWORD:-changeme_strong_password}
+    profiles:
+      - tools
+    networks:
+      - wpsdevbox
+
 volumes:
   db_data:
 
