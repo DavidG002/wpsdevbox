@@ -64,6 +64,7 @@ services:
       - ./:/var/www/html
     working_dir: /var/www/html
     user: "33:33"
+    entrypoint: ["wp"]
     environment:
       WORDPRESS_DB_HOST: db
       WORDPRESS_DB_NAME: ${DB_NAME:-wpsdevbox}
